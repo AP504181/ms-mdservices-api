@@ -18,7 +18,7 @@ public class SwaggerConfig {
 				.components(new Components())
 				.servers(List.of(
 						new Server()
-								.url("https://ms-mdservices-api-production-c2d7.up.railway.app/md-services")
+								.url("https://ms-mdservices-api-app.up.railway.app/md-services")
 								.description("Railway Production")
 				))
 				.info(new Info()
