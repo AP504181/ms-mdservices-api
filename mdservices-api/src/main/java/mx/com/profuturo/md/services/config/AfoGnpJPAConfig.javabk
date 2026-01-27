@@ -1,0 +1,73 @@
+package mx.com.profuturo.md.services.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+        entityManagerFactoryRef = "afognpEMF",
+        transactionManagerRef = "afognpTM",
+        basePackages = {"mx.com.profuturo.md.services.repository.afognp"}
+)
+public class AfoGnpJPAConfig {
+
+    private final String DS_URL;
+    private final String DS_USERNAME;
+    private final String DS_PASSWORD;
+    private final String DS_DRIVER;
+
+    @Autowired
+    public AfoGnpJPAConfig(
+            @Value("${datasource.afognp.url}") String url,
+            @Value("${datasource.afognp.username}") String dsUsername,
+            @Value("${datasource.afognp.password}") String dsPassword,
+            @Value("${datasource.afognp.driver-class-name}") String dsDriver) {
+        this.DS_URL = url;
+        this.DS_USERNAME = dsUsername;
+        this.DS_PASSWORD = dsPassword;
+        this.DS_DRIVER = dsDriver;
+    }
+
+    @Bean(name = "afognpDS")
+    public DataSource afognpDS() {
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+        driverManagerDataSource.setUrl(this.DS_URL);
+        driverManagerDataSource.setDriverClassName(this.DS_DRIVER);
+        driverManagerDataSource.setUsername(this.DS_USERNAME);
+        driverManagerDataSource.setPassword(this.DS_PASSWORD);
+        return driverManagerDataSource;
+    }
+
+    @Primary
+    @Bean(name = "afognpEMF")
+    public LocalContainerEntityManagerFactoryBean afognpEMF() {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setDataSource(afognpDS());
+        emf.setPackagesToScan("mx.com.profuturo.md.services.entity.afognp");
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        emf.setJpaVendorAdapter(vendorAdapter);
+        return emf;
+    }
+
+    @Primary
+    @Bean(name = "afognpTM")
+    public PlatformTransactionManager afognpTM() {
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(afognpEMF().getObject());
+        return txManager;
+    }
+}
