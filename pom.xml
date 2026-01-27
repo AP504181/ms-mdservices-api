@@ -52,7 +52,6 @@
             <version>5.7.1</version>
         </dependency>
 
-        <!-- Lombok (CRÍTICO) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -70,8 +69,6 @@
 
     <build>
         <plugins>
-
-            <!-- FIX DEFINITIVO JCTree ERROR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
