@@ -16,11 +16,11 @@ public class SwaggerConfig {
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI()
 				.components(new Components())
-				.servers(List.of(
+				/*.servers(List.of(
 						new Server()
 								.url("https://ms-mdservices-api-app.up.railway.app/md-services")
 								.description("Railway Production")
-				))
+				))*/
 				.info(new Info()
 						.title("Modificacion Datos MD API")
 						.description("Especificación técnica para la modificacion de datos")
