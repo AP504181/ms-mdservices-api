@@ -29,7 +29,7 @@ public class MdServicesController {
 	@CrossOrigin(origins = "*")
 	@PostMapping("/consultarMdCognos024")
 	public List<ReporteSolicitudesDto> consultarmdcognos024(@RequestBody SolicitudesMdFecha fechasmd) throws Exception {
-		log.info("consultarmdcognos Controller");
+		log.info("consultarMdCognos024 Controller in"+Utils.parseToJson(fechasmd));
 		List<ReporteSolicitudesDto> retorno=mdsolicitudesservicemock.obtenersolicitudescognos24(fechasmd);
 
 		return  retorno;
@@ -37,7 +37,7 @@ public class MdServicesController {
 	@CrossOrigin(origins = "*")
 	@PostMapping("/consultarMdCognos125")
 	public List<ReporteSolicitudesDto125> consultarmdcognos125(@RequestBody SolicitudesMdFecha fechasmd) throws Exception {
-		log.info("consultarmdcognos Controller");
+		log.info("consultarMdCognos125 Controller in"+Utils.parseToJson(fechasmd));
 		List<ReporteSolicitudesDto125> retorno=mdsolicitudesservicemock.obtenersolicitudescognos125(fechasmd);
 
 		return  retorno;

@@ -8,11 +8,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.extern.slf4j.Slf4j;
+import mx.com.profuturo.md.services.exception.RequestException;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
 @Data
+@Slf4j
 @Component
 public class Utils {
 	
@@ -41,5 +46,22 @@ public class Utils {
 		} catch (ParseException e) {
 			return fecharetorno;
 		}
+	}
+
+	public static String parseToJson(Object object) {
+		try {
+
+			StringBuilder strb = new StringBuilder();
+			strb.append("\n");
+			strb.append(new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(object));
+
+			return strb.toString();
+
+		} catch (Exception ex) {
+			log.error(ex.getMessage());
+			throw new RequestException(ex.getMessage());
+
+		}
+
 	}
 }
